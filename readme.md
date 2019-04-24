@@ -26,3 +26,14 @@ yum update
 ### nginx配置
 
 复杂均衡，转发，反向代理
+
+## 项目初始化
+
+通过org.apache.maven.archetypes:maven-archetype-webapp模板构建web项目
+
+### 使用mybatis generator生成dao层和xml文件
+
+1. pom文件引入mybatis generator插件
+2. 添加generatorConfig配置文件来配置属性
+3. 添加数据库配置
+4. 在maven插件中运行mybatis generator
