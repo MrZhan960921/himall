@@ -37,3 +37,49 @@ yum update
 2. 添加generatorConfig配置文件来配置属性
 3. 添加数据库配置
 4. 在maven插件中运行mybatis generator
+
+### ssm相关配置
+
+见代码
+
+## 用户模块
+
+通用响应类，因为@ResponseBody会将java类转成json返回给前端，所以要实现Serializable接口。对于一些不想返回的属性要结合@JsonIgonre之类的注解
+
+实现枚举类
+```java
+public enum ResponseCode {
+    SUCCESS(0,"SUCCESS"),
+    ERROR(1,"ERROR"),
+    NEED_LOGIN(10,"NEED_LOGIN"),
+    ILLEGAL_ARGUMENT(2,"ILLEGAL_ARGUMENT");
+
+    private final int code;
+    private final String desc;
+
+
+    ResponseCode(int code,String desc){
+        this.code = code;
+        this.desc = desc;
+    }
+
+    public int getCode(){
+        return code;
+    }
+    public String getDesc(){
+        return desc;
+    }
+}
+```
+
+mybatis中传递多个参数要用@Param注解，映射为map，xml中parameterType=map
+
+### 忘记密码功能
+
+忘记密码回答完正确问题要返回一个token，访问修改密码接口必须带上这个token，否则会有横向越权问题。
+
+将token放入本地Guava缓存中
+
+Guava缓存可以看做是一个map
+
+
