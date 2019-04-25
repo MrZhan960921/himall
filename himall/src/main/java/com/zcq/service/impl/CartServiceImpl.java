@@ -1,7 +1,9 @@
 package com.zcq.service.impl;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.zcq.common.Const;
+import com.zcq.common.ResponseCode;
 import com.zcq.common.ServerResponse;
 import com.zcq.dao.CartMapper;
 import com.zcq.dao.ProductMapper;
@@ -33,6 +35,69 @@ public class CartServiceImpl implements ICartService {
     public ServerResponse<CartVo> list (Integer userId){
         CartVo cartVo = this.getCartVoLimit(userId);
         return ServerResponse.createBySuccess(cartVo);
+    }
+
+    @Override
+    public ServerResponse<CartVo> add(Integer userId,Integer productId,Integer count){
+        if(productId == null || count == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+
+
+        Cart cart = cartMapper.selectCartByUserIdProductId(userId,productId);
+        if(cart == null){
+            //这个产品不在这个购物车里,需要新增一个这个产品的记录
+            Cart cartItem = new Cart();
+            cartItem.setQuantity(count);
+            cartItem.setChecked(Const.Cart.CHECKED);
+            cartItem.setProductId(productId);
+            cartItem.setUserId(userId);
+            cartMapper.insert(cartItem);
+        }else{
+            //这个产品已经在购物车里了.
+            //如果产品已存在,数量相加
+            count = cart.getQuantity() + count;
+            cart.setQuantity(count);
+            cartMapper.updateByPrimaryKeySelective(cart);
+        }
+        return this.list(userId);
+    }
+
+    @Override
+    public ServerResponse<CartVo> update(Integer userId,Integer productId,Integer count){
+        if(productId == null || count == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        Cart cart = cartMapper.selectCartByUserIdProductId(userId,productId);
+        if(cart != null){
+            cart.setQuantity(count);
+        }
+        cartMapper.updateByPrimaryKey(cart);
+        return this.list(userId);
+    }
+
+    @Override
+    public ServerResponse<CartVo> deleteProduct(Integer userId,String productIds){
+        List<String> productList = Splitter.on(",").splitToList(productIds);
+        if(CollectionUtils.isEmpty(productList)){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        cartMapper.deleteByUserIdProductIds(userId,productList);
+        return this.list(userId);
+    }
+
+    @Override
+    public ServerResponse<CartVo> selectOrUnSelect (Integer userId,Integer productId,Integer checked){
+        cartMapper.checkedOrUncheckedProduct(userId,productId,checked);
+        return this.list(userId);
+    }
+
+    @Override
+    public ServerResponse<Integer> getCartProductCount(Integer userId){
+        if(userId == null){
+            return ServerResponse.createBySuccess(0);
+        }
+        return ServerResponse.createBySuccess(cartMapper.selectCartProductCount(userId));
     }
 
     private CartVo getCartVoLimit(Integer userId){
