@@ -82,4 +82,14 @@ mybatis中传递多个参数要用@Param注解，映射为map，xml中parameterT
 
 Guava缓存可以看做是一个map
 
+## 商品模块
+
+### Properties文件读取
+
+### jodatime处理时间(很强大)
+放一串代码感受下
+```java
+DateTime dateTime_1 = dateTime.plusMonths(1).plusDays(3).plusHours(-8);//随便++--日期，想怎么操作怎么操作
+```
+
 

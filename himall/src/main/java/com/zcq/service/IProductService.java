@@ -1,5 +1,6 @@
 package com.zcq.service;
 
+import com.github.pagehelper.PageInfo;
 import com.zcq.common.ServerResponse;
 import com.zcq.pojo.Product;
 import com.zcq.vo.ProductDetailVo;
@@ -15,4 +16,6 @@ public interface IProductService {
     ServerResponse<String> setSaleStatus(Integer productId,Integer status);
 
     ServerResponse<ProductDetailVo> manageProductDetail(Integer productId);
+
+    ServerResponse<PageInfo> getProductList(int pageNum, int pageSize);
 }
