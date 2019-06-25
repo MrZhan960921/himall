@@ -205,4 +205,8 @@
     where password = #{password}
     and id = #{userId}
   </select>
+
+  <select id="selectAll" resultType="com.zcq.pojo.User">
+    select * from mmall_user
+  </select>
 </mapper>

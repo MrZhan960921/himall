@@ -3,6 +3,8 @@ package com.zcq.dao;
 import com.zcq.pojo.User;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -31,4 +33,6 @@ public interface UserMapper {
     int checkEmailByUserId(@Param(value="email")String email,@Param(value="userId")Integer userId);
 
     int checkPassword(@Param(value="password")String password,@Param("userId")Integer userId);
+
+    List<User> selectAll();
 }

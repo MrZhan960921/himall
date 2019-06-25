@@ -92,6 +92,21 @@ public class CategoryServiceImpl implements ICategoryService {
         return ServerResponse.createBySuccess(categoryIdList);
     }
 
+    @Override
+    public List<Category> selectCategoryByParentId() {
+        return null;
+    }
+
+    @Override
+    public List<Category> findTop(Integer parentId) {
+        return categoryMapper.selectTop(parentId);
+    }
+
+    @Override
+    public Integer count() {
+        return categoryMapper.count();
+    }
+
 
     //递归算法,算出子节点
     private Set<Category> findChildCategory(Set<Category> categorySet ,Integer categoryId){

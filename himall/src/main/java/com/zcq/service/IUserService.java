@@ -3,6 +3,8 @@ package com.zcq.service;
 import com.zcq.common.ServerResponse;
 import com.zcq.pojo.User;
 
+import java.util.List;
+
 /**
  * @Author: zcq
  * @Date: 2019/4/24 13:34
@@ -27,4 +29,6 @@ public interface IUserService {
     ServerResponse<User> getInformation(Integer userId);
 
     ServerResponse checkAdminRole(User user);
+
+    List<User> selectAll();
 }

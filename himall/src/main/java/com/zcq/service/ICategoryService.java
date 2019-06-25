@@ -17,4 +17,10 @@ public interface ICategoryService {
     ServerResponse<List<Category>> getChildrenParallelCategory(Integer categoryId);
 
     ServerResponse<List<Integer>> selectCategoryAndChildrenById(Integer categoryId);
+
+    List<Category> selectCategoryByParentId();
+
+    List<Category> findTop(Integer parentId);
+
+    Integer count();
 }

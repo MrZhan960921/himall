@@ -97,11 +97,12 @@ public class OrderController {
 
 
 
-
+//支付模块
 
 
     /**
-     *
+     * 支付，传入orderNo和用户信息，返回付款二维码地址，前端展示，用户可以扫码
+     * 会回调一次
      * @param session
      * @param orderNo 订单号
      * @param request
@@ -116,13 +117,21 @@ public class OrderController {
         }
         //二维码存放地址
         String path = request.getSession().getServletContext().getRealPath("upload");
+        //根据订单信息，做业务处理
         return iOrderService.pay(orderNo,user.getId(),path);
     }
 
 
+    /**
+     * 回调函数
+     * 回调第二次
+     * @param request 支付宝的回调会把所有的参数放到request里
+     * @return
+     */
     @RequestMapping("alipay_callback.do")
     @ResponseBody
     public Object alipayCallback(HttpServletRequest request){
+
         Map<String,String> params = Maps.newHashMap();
 
         Map requestParams = request.getParameterMap();

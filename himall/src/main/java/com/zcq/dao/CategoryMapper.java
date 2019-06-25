@@ -18,4 +18,12 @@ public interface CategoryMapper {
     int updateByPrimaryKey(Category record);
 
     List<Category> selectCategoryChildrenByParentId(Integer parentId);
+
+    Integer selectChildCount(Integer id);
+
+    List<Category> selectTop(Integer parentId);
+
+    Integer count();
+
+    Category getParentById(Integer id);
 }

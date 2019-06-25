@@ -41,7 +41,6 @@ public class FileServiceImpl implements IFileService {
             file.transferTo(targetFile);
             //文件已经上传成功了
 
-
             FTPUtil.uploadFile(Lists.newArrayList(targetFile));
             //已经上传到ftp服务器上
             //实际生产环境不能存到tomcat服务器下

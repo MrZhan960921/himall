@@ -123,4 +123,26 @@
     from mmall_category
     where parent_id = #{parentId}
   </select>
+
+  <select id="selectChildCount" resultType="int" parameterType="int">
+    select count(*) from mmall_category
+    where parent_id = #{id}
+  </select>
+
+  <select id="selectTop" resultType="com.zcq.pojo.Category">
+    select *
+    from mmall_category
+    where parent_id=#{parentId}
+  </select>
+
+  <select id="count" resultType="int">
+    select count(*)
+    from mmall_category
+    where parent_id=0
+  </select>
+
+  <select id="getParentById" resultMap="BaseResultMap" parameterType="int">
+    select * from mmall_category
+    where id=#{id}
+  </select>
 </mapper>

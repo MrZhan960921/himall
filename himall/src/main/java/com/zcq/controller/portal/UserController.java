@@ -1,10 +1,13 @@
 package com.zcq.controller.portal;
 
 import com.zcq.common.Const;
+import com.zcq.common.Eddd;
 import com.zcq.common.ResponseCode;
 import com.zcq.common.ServerResponse;
 import com.zcq.pojo.User;
 import com.zcq.service.IUserService;
+import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @Author: zcq
@@ -117,6 +121,13 @@ public class UserController {
         if(currentUser == null){
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"未登录,需要强制登录status=10");
         }
+
         return iUserService.getInformation(currentUser.getId());
+    }
+
+    @RequestMapping(value = "list.do",method = RequestMethod.POST)
+    @ResponseBody
+    public List<User> getList(){
+        return iUserService.selectAll();
     }
 }
